@@ -1,0 +1,11 @@
+a = 2 ;
+b = 8 ;
+if (a * 2 < b) and true then
+    print(a + b)
+elif (b / 2 > a) and (true or false) then
+    print(b - a)
+elif (a ** 2 > b) or false then
+    print(100)
+else
+    print(0)
+endif

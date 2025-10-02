@@ -1,0 +1,9 @@
+a = 5 ;
+b = 3 ;
+if a > b then
+    print(true)
+elif a < b then
+    print(false)
+else
+    print(0)
+endif

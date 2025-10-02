@@ -1,0 +1,26 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+x=0
+while x < 10 do
+x=x + 1
+if 5 < x then
+print(x ** 2)
+else
+print(x + 5)
+endif
+endwhile
+
+Interprete:
+6
+7
+8
+9
+10
+36
+49
+64
+81
+100
+
+=== STDERR ===

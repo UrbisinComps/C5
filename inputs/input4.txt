@@ -1,0 +1,10 @@
+x = 7 ;
+if (x < 5) and false then
+    print(1)
+elif (x < 10) or true then
+    print(2)
+elif (x > 20) and (false or true) then
+    print(3)
+else
+    print(0)
+endif

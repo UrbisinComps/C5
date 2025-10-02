@@ -1,0 +1,8 @@
+n = 4 ;
+if (n > 2) and true then
+    print(n)
+elif (n < 10) and false then
+    print(0)
+else
+    print(99)
+endif
