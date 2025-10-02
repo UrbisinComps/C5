@@ -17,7 +17,10 @@ enum BinaryOp {
     MUL_OP, 
     DIV_OP,
     POW_OP,
-    LE_OP
+    LE_OP,
+    GE_OP,
+    AND_OP,
+    OR_OP
 };
 
 // Clase abstracta Exp
@@ -65,8 +68,15 @@ public:
     int accept(Visitor* visitor);
     SqrtExp(Exp* v);
     ~SqrtExp();
-}
-;
+};
+
+class BoolExp: public Exp {
+public:
+    int value;
+    int accept(Visitor* visitor);
+    BoolExp(int v);
+    ~BoolExp();
+};
 
 class Stm{
 public:
@@ -77,6 +87,7 @@ public:
 class IfStm: public Stm {
 public:
     Exp* condicion;
+    list<pair<Exp*, list<Stm*>>> elif_parts;
     bool parteelse;
     list<Stm*> slist1;
     list<Stm*> slist2;

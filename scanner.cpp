@@ -62,12 +62,18 @@ Token* Scanner::nextToken() {
         else if (lexema=="endif") return new Token(Token::ENDIF, input, first, current - first);
         else if (lexema=="endwhile") return new Token(Token::ENDWHILE, input, first, current - first);
         else if (lexema=="else") return new Token(Token::ELSE, input, first, current - first);
+        else if (lexema=="elif") return new Token(Token::ELIF, input, first, current - first);
+        else if (lexema=="and") return new Token(Token::AND, input, first, current - first);
+        else if (lexema=="or") return new Token(Token::OR, input, first, current - first);
+        else if (lexema=="true") return new Token(Token::TRUE, input, first, current - first);
+        else if (lexema=="false") return new Token(Token::FALSE, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
-    else if (strchr("+/-*();=<", c)) {
+    else if (strchr("+/-*();=<>", c)) {
         switch (c) {
             case '<': token = new Token(Token::LE,  c); break;
+            case '>': token = new Token(Token::GE,  c); break;
             case '+': token = new Token(Token::PLUS,  c); break;
             case '-': token = new Token(Token::MINUS, c); break;
             case '*': 

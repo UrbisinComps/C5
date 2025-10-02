@@ -22,6 +22,11 @@ public:
         ERR,     // Error
         ID,      // ID
         LE,
+        GE,
+        TRUE,
+        FALSE,
+        AND,
+        OR,
         SEMICOL,    
         ASSIGN,
         PRINT,
@@ -32,6 +37,7 @@ public:
         ENDIF,
         ENDWHILE,
         ELSE,
+        ELIF,
         END      // Fin de entrada
     };
 

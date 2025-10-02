@@ -1,26 +1,18 @@
 === STDOUT ===
 Parseo exitoso
 Codigo:
-x=0
-while x < 10 do
-x=x + 1
-if 5 < x then
-print(x ** 2)
+x=7
+if x < 5 and 0 then
+print(1)
+elif x < 10 or 1 then
+print(2)
+elif x > 20 and 0 or 1 then
+print(3)
 else
-print(x + 5)
+print(0)
 endif
-endwhile
 
 Interprete:
-6
-7
-8
-9
-10
-36
-49
-64
-81
-100
+2
 
 === STDERR ===

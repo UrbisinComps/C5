@@ -46,6 +46,10 @@ int WhileStm::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int BoolExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 int PrintVisitor::visit(BinaryExp* exp) {
@@ -86,6 +90,15 @@ int EVALVisitor::visit(BinaryExp* exp) {
     switch (exp->op) {
         case LE_OP:
             result = v1 < v2;
+            break;
+        case GE_OP:
+            result = v1 > v2;
+            break;
+        case AND_OP:
+            result = v1 && v2;
+            break;
+        case OR_OP:
+            result = v1 || v2;
             break;
         case PLUS_OP:
             result = v1 + v2;
@@ -190,10 +203,22 @@ int EVALVisitor::visit(IfStm* stm) {
             i->accept(this);
         }
     }
-    else{
-        for(auto i:stm->slist2){
-            i->accept(this);
-        } 
+    else {
+        bool elif_ejecutado = false;
+        for(auto& elif_pair : stm->elif_parts){
+            if(elif_pair.first->accept(this)){
+                for(auto i : elif_pair.second){
+                    i->accept(this);
+                }
+                elif_ejecutado = true;
+                break;
+            }
+        }
+        if(!elif_ejecutado && stm->parteelse){
+            for(auto i:stm->slist2){
+                i->accept(this);
+            }
+        }
     }
     return 0;
 }
@@ -215,12 +240,22 @@ int PrintVisitor::visit(IfStm* stm) {
     for (auto i:stm->slist1){
         i->accept(this);
     }
-    if (stm->parteelse){
-        cout << "else"  << endl;;
-        for (auto i:stm->slist2){
-             i->accept(this);
+
+    for(auto& elif_pair : stm->elif_parts){
+        cout << "elif ";
+        elif_pair.first->accept(this);
+        cout << " then" << endl;
+        for(auto i : elif_pair.second){
+            i->accept(this);
+        }
     }
-    }   
+
+    if (stm->parteelse){
+        cout << "else"  << endl;
+        for (auto i:stm->slist2){
+            i->accept(this);
+        }
+    }
     cout << "endif" << endl;
     return 0;
 }
@@ -233,5 +268,14 @@ int PrintVisitor::visit(WhileStm* stm) {
         i->accept(this);
     }
     cout << "endwhile" << endl;
+    return 0;
+}
+
+int EVALVisitor::visit(BoolExp* p) {
+    return p->value;
+}
+
+int PrintVisitor::visit(BoolExp* p) {
+    cout << p->value;
     return 0;
 }

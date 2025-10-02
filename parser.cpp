@@ -77,17 +77,17 @@ Stm* Parser::parseStm() {
     if(match(Token::ID)){
         variable = previous->text;
         match(Token::ASSIGN);
-        e = parseCE();
+        e = parseAE();
         return new AssignStm(variable,e);
     }
     else if(match(Token::PRINT)){
         match(Token::LPAREN);
-        e = parseCE();
+        e = parseAE();
         match(Token::RPAREN);
         return new PrintStm(e);
     }
     else if(match(Token::WHILE)){
-        e =  parseCE(); 
+        e =  parseAE();
         WhileStm* clasewhile = new WhileStm(e);  
         match(Token::DO);
         clasewhile->slist1.push_back(parseStm());
@@ -99,15 +99,26 @@ Stm* Parser::parseStm() {
     }
 
     else if(match(Token::IF)){
-        e =  parseCE(); 
+        e =  parseAE();
         IfStm* claseif = new IfStm(e);  
         match(Token::THEN);
         claseif->slist1.push_back(parseStm());
-        while(match(Token::SEMICOL)){
+        while (match(Token::SEMICOL)){
             claseif->slist1.push_back(parseStm());
         }
-        if(match(Token::ELSE)){
-           claseif->parteelse=true; 
+
+        while (match(Token::ELIF)) {
+            pair<Exp*, list<Stm*>> elif_part = make_pair<Exp*, list<Stm*>>(parseAE(), {});
+            match(Token::THEN);
+            elif_part.second.push_back(parseStm());
+            while(match(Token::SEMICOL)){
+                elif_part.second.push_back(parseStm());
+            }
+            claseif->elif_parts.push_back(elif_part);
+        }
+
+        if (match(Token::ELSE)){
+            claseif->parteelse=true;
             claseif->slist2.push_back(parseStm());
             while(match(Token::SEMICOL)){
                 claseif->slist2.push_back(parseStm());
@@ -123,10 +134,31 @@ Stm* Parser::parseStm() {
     return a;
 }
 
+Exp* Parser::parseAE() {
+    Exp* l = parseCE();
+    while (match(Token::AND) || match(Token::OR)) {
+        BinaryOp op;
+        if (previous->type == Token::AND){
+            op = AND_OP;
+        }
+        else {
+            op = OR_OP;
+        }
+        Exp* r = parseCE();
+        l = new BinaryExp(l, r, op);
+    }
+    return l;
+}
+
 Exp* Parser::parseCE() {
     Exp* l = parseBE();
     if (match(Token::LE)) {
         BinaryOp op = LE_OP;
+        Exp* r = parseBE();
+        l = new BinaryExp(l, r, op);
+    }
+    else if (match(Token::GE)) {
+        BinaryOp op = GE_OP;
         Exp* r = parseBE();
         l = new BinaryExp(l, r, op);
     }
@@ -185,7 +217,7 @@ Exp* Parser::parseF() {
     } 
     else if (match(Token::LPAREN))
     {
-        e = parseCE();
+        e = parseAE();
         match(Token::RPAREN);
         return e;
     }
@@ -199,6 +231,12 @@ Exp* Parser::parseF() {
     else if (match(Token::ID))
     {   
         return new IdExp(previous->text);
+    }
+    else if (match(Token::TRUE)) {
+        return new BoolExp(1);
+    }
+    else if (match(Token::FALSE)) {
+        return new BoolExp(0);
     }
     else {
         throw runtime_error("Error sintáctico");

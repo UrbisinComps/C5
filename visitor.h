@@ -23,6 +23,7 @@ public:
     virtual int visit(WhileStm* stm) = 0;
     virtual int visit(IfStm* stm) = 0;
     virtual int visit(AssignStm* stm) = 0;
+    virtual int visit(BoolExp* exp) = 0;
 };
 
 
@@ -39,6 +40,7 @@ public:
     int visit(AssignStm* stm) override;
     int visit(WhileStm* stm) override;
     int visit(IfStm* stm) override;
+    int visit(BoolExp* exp) override;
     void imprimir(Program* program); 
 };
 
@@ -53,6 +55,7 @@ public:
     int visit(AssignStm* stm) override;
     int visit(WhileStm* stm) override;
     int visit(IfStm* stm) override;
+    int visit(BoolExp* exp) override;
 
     void interprete(Program* program);
 };

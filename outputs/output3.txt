@@ -1,12 +1,16 @@
 === STDOUT ===
 Parseo exitoso
 Codigo:
-x=4
-y=5 + x
-z=3
-print(y + z)
+n=4
+if n > 2 and 1 then
+print(n)
+elif n < 10 and 0 then
+print(0)
+else
+print(99)
+endif
 
 Interprete:
-12
+4
 
 === STDERR ===

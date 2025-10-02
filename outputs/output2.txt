@@ -1,11 +1,17 @@
 === STDOUT ===
 Parseo exitoso
 Codigo:
-x=4 + 2
-y=5 * 2
-print(x + y)
+a=5
+b=3
+if a > b then
+print(1)
+elif a < b then
+print(0)
+else
+print(0)
+endif
 
 Interprete:
-16
+1
 
 === STDERR ===

@@ -13,7 +13,10 @@ string Exp::binopToChar(BinaryOp op) {
         case MUL_OP:   return "*";
         case DIV_OP:   return "/";
         case POW_OP:   return "**";
-        case LE_OP:   return "<";
+        case LE_OP: return "<";
+        case GE_OP: return ">";
+        case AND_OP: return "and";
+        case OR_OP:   return "or";
         default:       return "?";
     }
 }
@@ -45,6 +48,11 @@ IdExp::~IdExp() {}
 SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
+
+// ------------------ BoolExp ------------------
+BoolExp::BoolExp(int v) : value(v) {}
+
+BoolExp::~BoolExp() {}
 //////////////////////////
 
 Stm::~Stm(){}
